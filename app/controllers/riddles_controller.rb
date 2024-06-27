@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 class RiddlesController < ApplicationController
-  # before_action :authenticate_user!
-  before_action :set_riddle, only: [:show, :update, :destroy, :check_answer]
+  before_action :authenticate_user!
+  before_action :set_riddle, only: %i[show update destroy check_answer]
 
   # GET /riddles
   def index
-    if params[:level_id]
-      @riddles = Riddle.where(level_id: params[:level_id])
-    else
-      @riddles = Riddle.all
-    end
+    @riddles = if params[:level_id]
+                 Riddle.where(level_id: params[:level_id])
+               else
+                 Riddle.all
+               end
     render json: @riddles
   end
 
@@ -44,15 +46,32 @@ class RiddlesController < ApplicationController
 
   # POST /riddles/:id/check_answer
   def check_answer
-    if params[:answer].present? && @riddle.answer.downcase == params[:answer].downcase
-      render json: { correct: true }
+    @riddle = Riddle.find(params[:id])
+    if @riddle.answer == params[:answer]
+      handle_correct_answer(@riddle)
     else
-      render json: { correct: false }
+      render json: { status: 'incorrect' }
     end
   end
 
-
   private
+
+  def handle_correct_answer(riddle)
+    if riddle.trap
+      trap_count = TrapCount.find_or_initialize_by(user: current_user, riddle: riddle, level: riddle.level)
+      trap_count.increment!(:trap_count)
+      make_riddles_unavailable(riddle.level) if trap_count.trap_count >= 2
+    end
+
+    UserProgress.create(user: current_user, riddle: riddle, solved_at: Time.current)
+    render json: { status: 'correct' }
+  end
+
+  def make_riddles_unavailable(level)
+   Riddle.where(level: level).each do |riddle|
+      UserProgress.find_or_create_by(user: current_user, riddle: riddle).update(available: false)
+    end
+  end
 
   def set_riddle
     @riddle = Riddle.find(params[:id])

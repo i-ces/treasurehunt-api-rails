@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 namespace :generate do
-  desc "Generate levels with riddles"
+  desc 'Generate levels with riddles'
   task levels: :environment do
     num_levels = 3
     num_riddles_per_level = 5
@@ -9,7 +11,7 @@ namespace :generate do
 
       num_riddles_per_level.times do |j|
         question = "What has #{j + 1} letters?"
-        answer = "Letters"
+        answer = 'Letters'
         is_trap = [true, false].sample
 
         level.riddles.create(question: question, answer: answer, is_trap: is_trap)
