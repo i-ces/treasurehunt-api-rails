@@ -39,5 +39,12 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  has_one :user_level_progress
+  has_one :user_level_progress, dependent: :destroy
+  after_create :initialize_progress
+
+   private
+
+  def initialize_progress
+    UserLevelProgress.create(user: self, level: 0 , progress: 0)
+  end
 end
