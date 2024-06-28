@@ -61,7 +61,7 @@ class RiddlesController < ApplicationController
     trap_count = TrapCount.find_or_initialize_by(user: current_user, riddle: riddle, level: riddle.level)
     trap_count.increment!(:trap_count)
     render json:{
-      message: 'Oops! Looks like that was a trap setup.'
+      status: 'trap'
     }
     return
   end

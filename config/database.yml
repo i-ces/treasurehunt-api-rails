@@ -81,6 +81,6 @@ test:
 #
 production:
   <<: *default
-  database: event_api_production
-  username: event_api
+  database: hacknhunt_api_production
+  username: hunter
   password: <%= ENV["EVENT_API_DATABASE_PASSWORD"] %>

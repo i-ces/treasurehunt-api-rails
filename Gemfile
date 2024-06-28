@@ -6,10 +6,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.7'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 7.0.8'
+gem 'rails', '~> 6.1.4'
+
 
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 1.1'
+gem 'pg'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma', '>= 5.0'
@@ -58,4 +59,8 @@ group :development do
   gem 'rubocop-rails'
   gem 'spring'
   gem 'spring-watcher-listen'
+end
+
+group :production do
+  gem 'rails_12factor'
 end
