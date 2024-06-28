@@ -4,6 +4,8 @@ class ApplicationController < ActionController::API
   include ActionController::Cookies
   include DeviseTokenAuth::Concerns::SetUserByToken
 
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
   DATA_TYPE = {
     collection: 'collection',
     object: 'object'
@@ -20,4 +22,13 @@ class ApplicationController < ActionController::API
   def true?(data)
     data.to_s.eql? 'true'
   end
+
+  protected
+
+  def configure_permitted_parameters
+    added_attrs = [:image, :nmae, :email, :password, :password_confirmation]
+    devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
+    devise_parameter_sanitizer.permit :account_update, keys: added_attrs
+  end
+
 end
