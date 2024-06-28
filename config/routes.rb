@@ -8,4 +8,5 @@ Rails.application.routes.draw do
       post 'check_answer'
     end
   end
+  get 'leaderboard', to: 'users#leaderboard'
 end
