@@ -57,6 +57,6 @@ class LevelsController < ApplicationController
   end
 
   def level_params
-    params.require(:level).permit(:title, :level_int)
+    params.permit(:title, :level_int)
   end
 end
