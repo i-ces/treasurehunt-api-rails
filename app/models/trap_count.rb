@@ -25,6 +25,6 @@
 #
 class TrapCount < ApplicationRecord
   belongs_to :user
-  belongs_to :riddle
-  validates :user_id, uniqueness: { scope: %i[riddle_id level] }
+  belongs_to :level
+  validates :user_id, uniqueness: { scope: %i[riddle_id level_id] }
 end
