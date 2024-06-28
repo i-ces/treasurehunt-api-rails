@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
 
    private
 
-  def initialize_progress
-    UserLevelProgress.create(user: self, level: 0 , progress: 0)
+   def initialize_progress
+    UserLevelProgress.create(user: self, level_id: Level.first.id, reached_at: Time.current)
   end
 end

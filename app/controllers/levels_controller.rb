@@ -5,9 +5,30 @@ class LevelsController < ApplicationController
   before_action :set_level, only: %i[show destroy]
 
   # GET /levels
-  def index
-    @levels = Level.all
-    render json: @levels, include: :riddles
+ def index
+    levels = Level.all
+    user_progress = current_user.user_progress
+    current_level = user_progress.level
+    progress = user_progress.progress
+
+    levels_status = levels.map do |level|
+      {
+        level: level.id,
+        title: level.title,
+        level_int: level.level_int,
+        riddles: level.riddles.map do |riddle|
+          if level.id < current_level
+            { id: riddle.id, status: 'solved' }
+          elsif level.id == current_level && progress >= level.riddles.index(riddle)
+            { id: riddle.id, status: 'current' }
+          else
+            { id: riddle.id, status: 'locked' }
+          end
+        end
+      }
+    end
+
+    render json: levels_status
   end
 
   # GET /levels/:id
