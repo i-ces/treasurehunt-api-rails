@@ -65,7 +65,6 @@ class RiddlesController < ApplicationController
   next_level_id = find_next_level_id(riddle.level.id)
   user_level_progress = UserLevelProgress.find_or_initialize_by(user: current_user)
   user_level_progress.update!(reached_at: Time.current, level_id: next_level_id)
-  binding.pry
 
 
   render json: { status: 'correct' }
@@ -77,8 +76,6 @@ def find_next_level_id(current_level_id)
   next_level ? next_level.id : nil
 end
 
-
- d
 
   def set_riddle
     @riddle = Riddle.find(params[:id])
