@@ -86,6 +86,6 @@ end
   end
 
   def riddle_params
-    params.require(:riddle).permit(:question, :answer, :is_trap, :level_id)
+    params.permit(:question, :answer, :is_trap, :level_id)
   end
 end
