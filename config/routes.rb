@@ -9,4 +9,5 @@ Rails.application.routes.draw do
     end
   end
   get 'leaderboard', to: 'users#leaderboard'
+  get 'myposition', to: 'users#current_level'
 end

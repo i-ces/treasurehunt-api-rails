@@ -10,4 +10,12 @@ class UsersController < ApplicationController
 
     render json: @leaderboard.map { |entry| { user: entry.user, level: entry.level_id, reached_at: entry.reached_at } }
   end
+
+  def current_level
+    @current_level = UserLevelProgress.find_by(user: current_user);
+
+    render json: @current_level
+
+
+  end
 end
