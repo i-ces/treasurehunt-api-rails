@@ -20,6 +20,13 @@
 #
 #  fk_rails_...  (level_id => levels.id)
 #
+
 class Riddle < ApplicationRecord
   belongs_to :level
+  has_many :user_progresses
+  has_many :users, through: :user_progresses
+
+  def trap?
+    self.is_trap
+  end
 end

@@ -56,20 +56,33 @@ class RiddlesController < ApplicationController
 
   private
 
-  def handle_correct_answer(riddle)
-    if riddle.trap
-      trap_count = TrapCount.find_or_initialize_by(user: current_user, riddle: riddle, level: riddle.level)
-      trap_count.increment!(:trap_count)
-      make_riddles_unavailable(riddle.level) if trap_count.trap_count >= 2
-    end
-
-    UserProgress.create(user: current_user, riddle: riddle, solved_at: Time.current)
-    render json: { status: 'correct' }
+ def handle_correct_answer(riddle)
+  if riddle.is_trap?
+    trap_count = TrapCount.find_or_initialize_by(user: current_user, riddle: riddle, level: riddle.level)
+    trap_count.increment!(:trap_count)
+    make_riddles_unavailable(riddle.level) if trap_count.trap_count >= 2
   end
 
+  next_level_id = find_next_level_id(riddle.level.id)
+  user_level_progress = UserLevelProgress.find_or_initialize_by(user: current_user)
+  user_level_progress.update!(reached_at: Time.current, level_id: next_level_id)
+
+
+  render json: { status: 'correct' }
+end
+
+
+def find_next_level_id(current_level_id)
+  next_level = Level.where("id > ?", current_level_id).order(:id).first
+  next_level ? next_level.id : nil
+end
+
+
   def make_riddles_unavailable(level)
-   Riddle.where(level: level).each do |riddle|
-      UserProgress.find_or_create_by(user: current_user, riddle: riddle).update(available: false)
+    Riddle.where(level: level).each do |riddle|
+      if riddle.trap?
+        UserLevelProgress.find_or_create_by(user: current_user, riddle: riddle).update(available: false)
+      end
     end
   end
 
