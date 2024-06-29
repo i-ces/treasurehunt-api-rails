@@ -29,7 +29,7 @@ class Riddle < ApplicationRecord
   before_destroy :cleanup
 
   def cleanup
-    SolvedRiddles.where(riddle_id: self.id).destroy_all
+    SolvedRiddle.where(riddle_id: self.id).destroy_all
   end
 
   def trap?
