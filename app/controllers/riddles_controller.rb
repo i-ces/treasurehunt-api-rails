@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RiddlesController < ApplicationController
-  # before_action :authenticate_user!
+  before_action :authenticate_user!, only: %i[update destroy check_answer]
   before_action :set_riddle, only: %i[show update destroy check_answer]
 
   # GET /riddles
