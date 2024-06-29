@@ -6,7 +6,7 @@ class LevelsController < ApplicationController
 
   # GET /levels
  def index
-    levels = Level.all
+    levels = Level.all.order(:id)
     user_progress = current_user.user_level_progress
     current_level = user_progress.level_id
 
