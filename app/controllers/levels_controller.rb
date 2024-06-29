@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class LevelsController < ApplicationController
-  # before_action :authenticate_user!
+  before_action :authenticate_user!, only: %i[index]
   before_action :set_level, only: %i[show destroy update]
 
   # GET /levels
