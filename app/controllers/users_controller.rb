@@ -8,7 +8,7 @@ class UsersController < ApplicationController
                    .order('level_id DESC, reached_at ASC')
                    .includes(:user)
 
-    render json: @leaderboard.map { |entry| { user: entry.user, level: entry.level_id, reached_at: entry.reached_at, logo: entry.user.profile_image_url } }
+    render json: @leaderboard.map { |entry| { user: entry.user, level: entry.level_id, reached_at: entry.reached_at  } }
   end
 
   def current_level

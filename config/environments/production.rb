@@ -86,4 +86,3 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 end
-Rails.application.routes.default_url_options[:host] = 'https://polar-plains-57308-8adac2a966c6.herokuapp.comyour-app-name.herokuapp.com'

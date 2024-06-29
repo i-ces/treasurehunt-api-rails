@@ -42,16 +42,16 @@ class User < ActiveRecord::Base
   has_one :user_level_progress, dependent: :destroy
   after_create :initialize_progress
 
-  has_one_attached :profile_image
+  # has_one_attached :profile_image
 
   validates :email, presence: true, uniqueness: true
   validates :name, presence: true
 
-  def profile_image_url
-    if profile_image.attached?
-      profile_image.service_url
-    end
-  end
+  # def profile_image_url
+  #   if profile_image.attached?
+  #     profile_image.service_url
+  #   end
+  # end
 
    private
 
