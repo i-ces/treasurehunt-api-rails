@@ -46,7 +46,7 @@ class LevelsController < ApplicationController
 
   # PATCH /levels/:id
   def update
-    if @level.update(level_params)
+    if @level.update!(level_params)
       render json: @level
     else
       render json: @level.errors, status: :unprocessable_entity
