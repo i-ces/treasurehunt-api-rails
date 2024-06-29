@@ -44,6 +44,15 @@ class LevelsController < ApplicationController
     end
   end
 
+  # PATCH /levels/:id
+  def update
+    if @level.update(level_params)
+      render json: @level
+    else
+      render json: @level.errors, status: :unprocessable_entity
+    end
+  end
+
   # DELETE /levels/:id
   def destroy
     @level.destroy
