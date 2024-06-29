@@ -13,9 +13,10 @@ class RiddlesController < ApplicationController
       if @trap_count.trap_count >= 2
         @riddles = @riddles.where(is_trap: false)
       end
-    else
-      @riddles = Riddle.all
     end
+
+      solved_riddle_ids = current_user.solved_riddles.pluck(:riddle_id)
+      @riddles = @riddles.where.not(id: solved_riddle_ids)
 
     render json: @riddles
   end
@@ -62,6 +63,7 @@ class RiddlesController < ApplicationController
   private
 
   def handle_correct_answer(riddle)
+    SolvedRiddle.create(user: current_user, riddle: riddle)
     if riddle.is_trap?
       @trap_count.trap_count ||= 0
       @trap_count.increment!(:trap_count)
