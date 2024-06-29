@@ -26,6 +26,12 @@ class Riddle < ApplicationRecord
   has_many :user_progresses
   has_many :users, through: :user_progresses
 
+  before_destroy :cleanup
+
+  def cleanup
+    SolvedRiddles.where(riddle_id: self.id).destroy_all
+  end
+
   def trap?
     self.is_trap
   end

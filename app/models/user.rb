@@ -42,6 +42,9 @@ class User < ActiveRecord::Base
   has_one :user_level_progress, dependent: :destroy
   has_many :solved_riddles, dependent: :destroy
   after_create :initialize_progress
+  before_destroy :cleanup
+
+
 
   # has_one_attached :profile_image
 
@@ -56,7 +59,11 @@ class User < ActiveRecord::Base
 
    private
 
-   def initialize_progress
-    UserLevelProgress.create(user: self, level_id: Level.first.id, reached_at: Time.current)
+   def cleanup
+    TrapCount.where(user: self).destroy_all
+   end
+
+  def initialize_progress
+      UserLevelProgress.create(user: self, level_id: Level.first.id, reached_at: Time.current)
   end
 end
