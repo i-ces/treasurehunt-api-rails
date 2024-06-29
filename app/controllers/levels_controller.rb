@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class LevelsController < ApplicationController
-  # before_action :authenticate_user!
-  before_action :set_level, only: %i[show destroy]
+  before_action :authenticate_user!, only: %i[index]
+  before_action :set_level, only: %i[show destroy update]
 
   # GET /levels
  def index
-    levels = Level.all
+    levels = Level.all.order(:id)
     user_progress = current_user.user_level_progress
     current_level = user_progress.level_id
 
