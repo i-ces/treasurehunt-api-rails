@@ -8,17 +8,28 @@ class RiddlesController < ApplicationController
   # GET /riddles
   def index
     if params[:level_id]
-      @trap_count = TrapCount.find_or_create_by!(user: current_user, level_id: params[:level_id])
-      @riddles = Riddle.where(level_id: params[:level_id])
-      if @trap_count.trap_count >= 2
-        @riddles = @riddles.where(is_trap: false)
+      level_id = params[:level_id].to_i
+      user_progress = current_user.user_level_progress
+      current_level = user_progress.level_id
+
+      if level_id <= current_level
+        @trap_count = TrapCount.find_or_create_by!(user: current_user, level_id: level_id)
+        @riddles = Riddle.where(level_id: level_id)
+
+        if @trap_count.trap_count >= 2
+          @riddles = @riddles.where(is_trap: false)
+        end
+
+        solved_riddle_ids = current_user.solved_riddles.pluck(:riddle_id)
+        @riddles = @riddles.where.not(id: solved_riddle_ids)
+
+        render json: @riddles
+      else
+        render json: { error: 'Access to this level is restricted' }, status: :forbidden
       end
+    else
+      render json: { error: 'Level ID is required' }, status: :bad_request
     end
-
-      solved_riddle_ids = current_user.solved_riddles.pluck(:riddle_id)
-      @riddles = @riddles.where.not(id: solved_riddle_ids)
-
-    render json: @riddles
   end
 
   # GET /riddles/:id
