@@ -46,7 +46,6 @@ class User < ActiveRecord::Base
 
   validates :email, presence: true, uniqueness: true
   validates :name, presence: true
-  validates :profile_image, presence: true
 
   def profile_image_url
     if profile_image.attached?
