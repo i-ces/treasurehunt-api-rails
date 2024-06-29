@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
       Rails.application.routes.url_helpers.url_for(profile_image)
     end
   end
-h
+
    private
 
    def initialize_progress
