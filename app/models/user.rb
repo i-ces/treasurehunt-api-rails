@@ -40,6 +40,7 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_one :user_level_progress, dependent: :destroy
+  has_many :solved_riddles, dependent: :destroy
   after_create :initialize_progress
 
   # has_one_attached :profile_image

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_29_144724) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_29_184821) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -57,6 +57,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_29_144724) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["level_id"], name: "index_riddles_on_level_id"
+  end
+
+  create_table "solved_riddles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "riddle_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["riddle_id"], name: "index_solved_riddles_on_riddle_id"
+    t.index ["user_id", "riddle_id"], name: "index_solved_riddles_on_user_id_and_riddle_id", unique: true
+    t.index ["user_id"], name: "index_solved_riddles_on_user_id"
   end
 
   create_table "trap_counts", force: :cascade do |t|
@@ -107,6 +117,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_29_144724) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "riddles", "levels"
+  add_foreign_key "solved_riddles", "riddles"
+  add_foreign_key "solved_riddles", "users"
   add_foreign_key "trap_counts", "levels"
   add_foreign_key "trap_counts", "users"
   add_foreign_key "user_level_progresses", "levels"
