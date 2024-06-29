@@ -12,5 +12,4 @@
 #
 class Level < ApplicationRecord
   has_many :riddles, dependent: :destroy
-  has_one :trap_count
 end
