@@ -5,7 +5,7 @@ class User::RegistrationsController < ApplicationController
     @user = User.create!(user_params)
     render json:{
       user: @user,
-      image: @user.profile_image_url
+      image: @user.profile_image.service_url
     }
   end
   private
