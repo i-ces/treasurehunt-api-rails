@@ -2,7 +2,7 @@
 
 class LevelsController < ApplicationController
   # before_action :authenticate_user!
-  before_action :set_level, only: %i[show destroy]
+  before_action :set_level, only: %i[show destroy update]
 
   # GET /levels
  def index
