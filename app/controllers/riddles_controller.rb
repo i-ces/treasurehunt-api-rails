@@ -7,14 +7,14 @@ class RiddlesController < ApplicationController
 
   # GET /riddles
   def index
-    @riddles = if params[:level_id]
-                 Riddle.where(level_id: params[:level_id])
-               else
-                 Riddle.all
-               end
-
-    if params[:level_id] && @trap_count && @trap_count.trap_count >= 2
-      @riddles = @riddles.where(is_trap: false)
+    if params[:level_id]
+      @trap_count = TrapCount.find_or_create_by!(user: current_user, level_id: params[:level_id])
+      @riddles = Riddle.where(level_id: params[:level_id])
+      if @trap_count.trap_count >= 2
+        @riddles = @riddles.where(is_trap: false)
+      end
+    else
+      @riddles = Riddle.all
     end
 
     render json: @riddles
@@ -52,7 +52,6 @@ class RiddlesController < ApplicationController
 
   # POST /riddles/:id/check_answer
   def check_answer
-    @riddle = Riddle.find(params[:id])
     if @riddle.answer == params[:answer]
       handle_correct_answer(@riddle)
     else
@@ -93,6 +92,8 @@ class RiddlesController < ApplicationController
   def set_trap_count
     if params[:level_id]
       @trap_count = TrapCount.find_or_create_by!(user: current_user, level_id: params[:level_id])
+    elsif @riddle
+      @trap_count = TrapCount.find_or_create_by!(user: current_user, level_id: @riddle.level_id)
     end
   end
 end
