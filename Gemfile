@@ -41,6 +41,7 @@ gem 'rack-cors'
 
 # Image processing
 gem 'image_processing', '>= 1.2'
+gem "azure-storage-blob"
 
 group :development, :test do
   gem 'dotenv-rails'
