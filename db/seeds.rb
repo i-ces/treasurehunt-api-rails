@@ -1,21 +1,12 @@
 # frozen_string_literal: true
 
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
-# Clear existing data (optional)
-
-# Create level 1
+# Create level 1 if it doesn't exist , it is mandatory for users to have a initial level
 Level.create!(
   level_int: 1,
   title: 'The Beginning'
 )
 
-puts 'Seed data for levels created!'
+puts 'Level 1 created!.............'
 
 puts 'Seeding data for users!.............'
 users = [
@@ -287,7 +278,7 @@ users = [
     email: "thehunters@ices.edu",
     password: "thehuntersices",
     name: "The Hunters",
-    image: "https://hackandhunt.blob.core.windows.net/hack/The Hunters.png"
+    image: "https://hackandhunt.blob.core.windows.net/hack/The%20Hunters.png"
   },
   {
     email: "hunters3@ices.edu",
