@@ -12,9 +12,7 @@ class ApplicationController < ActionController::API
   }.with_indifferent_access.freeze
 
   def serialize(data, serializer, type = DATA_TYPE[:collection])
-    if type.to_s.eql? DATA_TYPE[:object]
-      return ActiveModelSerializers::SerializableResource.new(data, serializer: serializer)
-    end
+    return ActiveModelSerializers::SerializableResource.new(data, serializer:) if type.to_s.eql? DATA_TYPE[:object]
 
     ActiveModelSerializers::SerializableResource.new(data, each_serializer: serializer)
   end
@@ -26,9 +24,8 @@ class ApplicationController < ActionController::API
   protected
 
   def configure_permitted_parameters
-    added_attrs = [:profile_image, :name, :email, :password, :password_confirmation]
+    added_attrs = %i[profile_image name email password password_confirmation]
     devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
     devise_parameter_sanitizer.permit :account_update, keys: added_attrs
   end
-
 end

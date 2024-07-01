@@ -44,8 +44,6 @@ class User < ActiveRecord::Base
   after_create :initialize_progress
   before_destroy :cleanup
 
-
-
   # has_one_attached :profile_image
 
   validates :email, presence: true, uniqueness: true
@@ -57,13 +55,13 @@ class User < ActiveRecord::Base
   #   end
   # end
 
-   private
+  private
 
-   def cleanup
+  def cleanup
     TrapCount.where(user: self).destroy_all
-   end
+  end
 
   def initialize_progress
-      UserLevelProgress.create(user: self, level_id: Level.first.id, reached_at: Time.current)
+    UserLevelProgress.create(user: self, level_id: Level.first.id, reached_at: Time.current)
   end
 end

@@ -8,7 +8,6 @@ ruby '3.2.4'
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.8'
 
-
 # Use postgresql as the database for Active Record
 gem 'pg'
 
@@ -40,8 +39,8 @@ gem 'bootsnap', require: false
 gem 'rack-cors'
 
 # Image processing
+gem 'azure-storage-blob', require: false
 gem 'image_processing', '>= 1.2'
-gem "azure-storage-blob" , require: false
 
 group :development, :test do
   gem 'dotenv-rails'

@@ -14,7 +14,7 @@ namespace :generate do
         answer = 'Letters'
         is_trap = [true, false].sample
 
-        level.riddles.create(question: question, answer: answer, is_trap: is_trap)
+        level.riddles.create(question:, answer:, is_trap:)
       end
     end
 

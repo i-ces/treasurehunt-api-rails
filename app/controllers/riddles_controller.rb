@@ -13,12 +13,10 @@ class RiddlesController < ApplicationController
       current_level = user_progress.level_id
 
       if level_id <= current_level
-        @trap_count = TrapCount.find_or_create_by!(user: current_user, level_id: level_id)
-        @riddles = Riddle.where(level_id: level_id)
+        @trap_count = TrapCount.find_or_create_by!(user: current_user, level_id:)
+        @riddles = Riddle.where(level_id:)
 
-        if @trap_count.trap_count >= 2
-          @riddles = @riddles.where(is_trap: false)
-        end
+        @riddles = @riddles.where(is_trap: false) if @trap_count.trap_count >= 2
 
         solved_riddle_ids = current_user.solved_riddles.pluck(:riddle_id)
         @riddles = @riddles.where.not(id: solved_riddle_ids)
@@ -74,7 +72,7 @@ class RiddlesController < ApplicationController
   private
 
   def handle_correct_answer(riddle)
-    SolvedRiddle.create(user: current_user, riddle: riddle)
+    SolvedRiddle.create(user: current_user, riddle:)
     if riddle.is_trap?
       @trap_count.trap_count ||= 0
       @trap_count.increment!(:trap_count)
@@ -90,8 +88,8 @@ class RiddlesController < ApplicationController
   end
 
   def find_next_level_id(current_level_id)
-    next_level = Level.where("id > ?", current_level_id).order(:id).first
-    next_level ? next_level.id : nil
+    next_level = Level.where('id > ?', current_level_id).order(:id).first
+    next_level&.id
   end
 
   def set_riddle

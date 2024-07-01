@@ -5,19 +5,19 @@ class LevelsController < ApplicationController
   before_action :set_level, only: %i[show destroy update]
 
   # GET /levels
- def index
+  def index
     levels = Level.all.order(:id)
     user_progress = current_user.user_level_progress
     current_level = user_progress.level_id
 
     levels_status = levels.map do |level|
       level_status = if level.id < current_level
-                   'solved'
-                 elsif level.id == current_level
-                   'current'
-                 else
-                   'locked'
-                 end
+                       'solved'
+                     elsif level.id == current_level
+                       'current'
+                     else
+                       'locked'
+                     end
       {
         level: level.id,
         title: level.title,

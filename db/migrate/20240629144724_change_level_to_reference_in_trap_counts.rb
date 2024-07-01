@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeLevelToReferenceInTrapCounts < ActiveRecord::Migration[7.0]
   def change
     remove_column :trap_counts, :level, :integer
